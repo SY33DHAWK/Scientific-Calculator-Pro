@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scientific Calculator Pro</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.11.0/math.min.js"></script>
+</head>
+<body>
+    <div class="calculator-container">
+        <!-- Calculator Header -->
+        <div class="calculator-header">
+            <div class="mode-indicators">
+                <span id="angle-mode" class="mode-indicator">DEG</span>
+                <span id="memory-indicator" class="mode-indicator hidden">M</span>
+                <span id="complex-mode" class="mode-indicator hidden">ℂ</span>
+            </div>
+        </div>
+
+        <!-- Calculator Display -->
+        <div class="calculator-display">
+            <div id="history-display" class="history-display"></div>
+            <div id="main-display" class="main-display">0</div>
+        </div>
+
+        <!-- Tab Navigation -->
+        <div class="tab-navigation">
+            <button class="tab-btn active" data-tab="basic">Basic</button>
+            <button class="tab-btn" data-tab="functions">Functions</button>
+            <button class="tab-btn" data-tab="trig">Trig</button>
+            <button class="tab-btn" data-tab="complex">Complex</button>
+            <button class="tab-btn" data-tab="matrix">Matrix</button>
+            <button class="tab-btn" data-tab="calculus">Calculus</button>
+            <button class="tab-btn" data-tab="solver">Solver</button>
+            <button class="tab-btn" data-tab="stats">Stats</button>
+            <button class="tab-btn" data-tab="convert">Convert</button>
+            <button class="tab-btn" data-tab="memory">Memory</button>
+        </div>
+
+        <!-- Tab Content -->
+        <div class="tab-content">
+            <!-- Basic Tab -->
+            <div id="tab-basic" class="tab-panel active">
+                <div class="button-grid basic-grid">
+                    <button class="btn calc-btn btn-clear" data-action="clear">C</button>
+                    <button class="btn calc-btn btn-delete" data-action="delete">DEL</button>
+                    <button class="btn calc-btn btn-operator" data-value="(">(</button>
+                    <button class="btn calc-btn btn-operator" data-value=")">)</button>
+                    
+                    <button class="btn calc-btn btn-operator" data-value="%">%</button>
+                    <button class="btn calc-btn btn-operator" data-action="sign">±</button>
+                    <button class="btn calc-btn btn-operator" data-value="/">÷</button>
+                    <button class="btn calc-btn btn-operator" data-value="*">×</button>
+                    
+                    <button class="btn calc-btn btn-number" data-value="7">7</button>
+                    <button class="btn calc-btn btn-number" data-value="8">8</button>
+                    <button class="btn calc-btn btn-number" data-value="9">9</button>
+                    <button class="btn calc-btn btn-operator" data-value="-">−</button>
+                    
+                    <button class="btn calc-btn btn-number" data-value="4">4</button>
+                    <button class="btn calc-btn btn-number" data-value="5">5</button>
+                    <button class="btn calc-btn btn-number" data-value="6">6</button>
+                    <button class="btn calc-btn btn-operator" data-value="+">+</button>
+                    
+                    <button class="btn calc-btn btn-number" data-value="1">1</button>
+                    <button class="btn calc-btn btn-number" data-value="2">2</button>
+                    <button class="btn calc-btn btn-number" data-value="3">3</button>
+                    <button class="btn calc-btn btn-equals span-2" data-action="equals">=</button>
+                    
+                    <button class="btn calc-btn btn-number span-2" data-value="0">0</button>
+                    <button class="btn calc-btn btn-number" data-value=".">.</button>
+                    
+                    <button class="btn calc-btn btn-function" data-action="ans">ANS</button>
+                </div>
+            </div>
+
+            <!-- Functions Tab -->
+            <div id="tab-functions" class="tab-panel">
+                <div class="button-grid functions-grid">
+                    <button class="btn calc-btn btn-function" data-function="square">x²</button>
+                    <button class="btn calc-btn btn-function" data-function="cube">x³</button>
+                    <button class="btn calc-btn btn-function" data-function="power">xʸ</button>
+                    <button class="btn calc-btn btn-function" data-function="reciprocal">1/x</button>
+                    
+                    <button class="btn calc-btn btn-function" data-function="sqrt">√x</button>
+                    <button class="btn calc-btn btn-function" data-function="cbrt">∛x</button>
+                    <button class="btn calc-btn btn-function" data-function="nthroot">ⁿ√x</button>
+                    <button class="btn calc-btn btn-function" data-function="abs">|x|</button>
+                    
+                    <button class="btn calc-btn btn-function" data-function="exp">eˣ</button>
+                    <button class="btn calc-btn btn-function" data-function="exp10">10ˣ</button>
+                    <button class="btn calc-btn btn-function" data-function="ln">ln</button>
+                    <button class="btn calc-btn btn-function" data-function="log">log</button>
+                    
+                    <button class="btn calc-btn btn-function" data-function="factorial">n!</button>
+                    <button class="btn calc-btn btn-function" data-function="nPr">nPr</button>
+                    <button class="btn calc-btn btn-function" data-function="nCr">nCr</button>
+                    <button class="btn calc-btn btn-function" data-function="logab">logₐ(x)</button>
+                    
+                    <button class="btn calc-btn btn-constant" data-value="pi">π</button>
+                    <button class="btn calc-btn btn-constant" data-value="e">e</button>
+                    <button class="btn calc-btn btn-constant" data-value="phi">φ</button>
+                    <button class="btn calc-btn btn-function" data-function="random">Rand</button>
+                </div>
+            </div>
+
+            <!-- Trigonometry Tab -->
+            <div id="tab-trig" class="tab-panel">
+                <div class="angle-mode-toggle">
+                    <button id="deg-btn" class="angle-btn active">DEG</button>
+                    <button id="rad-btn" class="angle-btn">RAD</button>
+                    <button id="grad-btn" class="angle-btn">GRAD</button>
+                </div>
+                <div class="button-grid trig-grid">
+                    <button class="btn calc-btn btn-function" data-function="sin">sin</button>
+                    <button class="btn calc-btn btn-function" data-function="cos">cos</button>
+                    <button class="btn calc-btn btn-function" data-function="tan">tan</button>
+                    <button class="btn calc-btn btn-function" data-function="cot">cot</button>
+                    
+                    <button class="btn calc-btn btn-function" data-function="asin">sin⁻¹</button>
+                    <button class="btn calc-btn btn-function" data-function="acos">cos⁻¹</button>
+                    <button class="btn calc-btn btn-function" data-function="atan">tan⁻¹</button>
+                    <button class="btn calc-btn btn-function" data-function="acot">cot⁻¹</button>
+                    
+                    <button class="btn calc-btn btn-function" data-function="sec">sec</button>
+                    <button class="btn calc-btn btn-function" data-function="csc">csc</button>
+                    <button class="btn calc-btn btn-function" data-function="asec">sec⁻¹</button>
+                    <button class="btn calc-btn btn-function" data-function="acsc">csc⁻¹</button>
+                    
+                    <button class="btn calc-btn btn-function" data-function="sinh">sinh</button>
+                    <button class="btn calc-btn btn-function" data-function="cosh">cosh</button>
+                    <button class="btn calc-btn btn-function" data-function="tanh">tanh</button>
+                    <button class="btn calc-btn btn-function" data-function="coth">coth</button>
+                    
+                    <button class="btn calc-btn btn-function" data-function="asinh">sinh⁻¹</button>
+                    <button class="btn calc-btn btn-function" data-function="acosh">cosh⁻¹</button>
+                    <button class="btn calc-btn btn-function" data-function="atanh">tanh⁻¹</button>
+                    <button class="btn calc-btn btn-function" data-function="acoth">coth⁻¹</button>
+                </div>
+            </div>
+
+            <!-- Complex Numbers Tab -->
+            <div id="tab-complex" class="tab-panel">
+                <div class="complex-mode-toggle">
+                    <button id="rect-btn" class="complex-btn active">a+bi</button>
+                    <button id="polar-btn" class="complex-btn">r∠θ</button>
+                    <button id="complex-toggle" class="complex-btn">ℂ Mode</button>
+                </div>
+                <div class="button-grid complex-grid">
+                    <button class="btn calc-btn btn-complex" data-value="i">i</button>
+                    <button class="btn calc-btn btn-function" data-function="conj">conj</button>
+                    <button class="btn calc-btn btn-function" data-function="re">Re</button>
+                    <button class="btn calc-btn btn-function" data-function="im">Im</button>
+                    
+                    <button class="btn calc-btn btn-function" data-function="abs">|z|</button>
+                    <button class="btn calc-btn btn-function" data-function="arg">arg</button>
+                    <button class="btn calc-btn btn-function" data-function="rectToPolar">→Polar</button>
+                    <button class="btn calc-btn btn-function" data-function="polarToRect">→Rect</button>
+                    
+                    <button class="btn calc-btn btn-operator" data-value="+">+</button>
+                    <button class="btn calc-btn btn-operator" data-value="-">−</button>
+                    <button class="btn calc-btn btn-operator" data-value="*">×</button>
+                    <button class="btn calc-btn btn-operator" data-value="/">÷</button>
+                </div>
+            </div>
+
+            <!-- Matrix Tab -->
+            <div id="tab-matrix" class="tab-panel">
+                <div class="matrix-controls">
+                    <div class="matrix-size">
+                        <label>Matrix Size:</label>
+                        <select id="matrix-size-select">
+                            <option value="2">2×2</option>
+                            <option value="3">3×3</option>
+                            <option value="4">4×4</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="matrix-input" class="matrix-input">
+                    <!-- Matrix input will be generated dynamically -->
+                </div>
+                <div class="button-grid matrix-grid">
+                    <button class="btn calc-btn btn-function" data-action="matrix-add">A + B</button>
+                    <button class="btn calc-btn btn-function" data-action="matrix-sub">A − B</button>
+                    <button class="btn calc-btn btn-function" data-action="matrix-mult">A × B</button>
+                    <button class="btn calc-btn btn-function" data-action="matrix-scalar">k × A</button>
+                    
+                    <button class="btn calc-btn btn-function" data-action="matrix-transpose">Aᵀ</button>
+                    <button class="btn calc-btn btn-function" data-action="matrix-det">det(A)</button>
+                    <button class="btn calc-btn btn-function" data-action="matrix-inv">A⁻¹</button>
+                    <button class="btn calc-btn btn-function" data-action="matrix-rref">RREF</button>
+                </div>
+            </div>
+
+            <!-- Calculus Tab -->
+            <div id="tab-calculus" class="tab-panel">
+                <div class="calculus-input">
+                    <div class="form-group">
+                        <label class="form-label">Function f(x):</label>
+                        <input type="text" id="calc-function" class="form-control" placeholder="x^2 + 2*x + 1">
+                    </div>
+                </div>
+                <div class="button-grid calculus-grid">
+                    <button class="btn calc-btn btn-function" data-action="derivative">d/dx</button>
+                    <button class="btn calc-btn btn-function" data-action="integral">∫dx</button>
+                    <button class="btn calc-btn btn-function" data-action="definite-integral">∫[a,b]dx</button>
+                    <button class="btn calc-btn btn-function" data-action="limit">lim</button>
+                    
+                    <div class="calc-params">
+                        <input type="number" id="calc-point" placeholder="x value" class="form-control calc-input">
+                        <input type="number" id="calc-lower" placeholder="Lower bound" class="form-control calc-input">
+                        <input type="number" id="calc-upper" placeholder="Upper bound" class="form-control calc-input">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Equation Solver Tab -->
+            <div id="tab-solver" class="tab-panel">
+                <div class="solver-type">
+                    <select id="equation-type" class="form-control">
+                        <option value="linear">Linear: ax + b = 0</option>
+                        <option value="quadratic">Quadratic: ax² + bx + c = 0</option>
+                        <option value="cubic">Cubic: ax³ + bx² + cx + d = 0</option>
+                        <option value="system2">System 2×2</option>
+                        <option value="system3">System 3×3</option>
+                    </select>
+                </div>
+                <div id="equation-inputs" class="equation-inputs">
+                    <!-- Equation inputs will be generated dynamically -->
+                </div>
+                <div class="button-grid solver-grid">
+                    <button class="btn calc-btn btn-function" data-action="solve">Solve</button>
+                    <button class="btn calc-btn btn-function" data-action="clear-solver">Clear</button>
+                </div>
+                <div id="solver-results" class="solver-results"></div>
+            </div>
+
+            <!-- Statistics Tab -->
+            <div id="tab-stats" class="tab-panel">
+                <div class="stats-input">
+                    <div class="form-group">
+                        <label class="form-label">Data (comma-separated):</label>
+                        <textarea id="stats-data" class="form-control" placeholder="1, 2, 3, 4, 5" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="button-grid stats-grid">
+                    <button class="btn calc-btn btn-function" data-action="mean">Mean</button>
+                    <button class="btn calc-btn btn-function" data-action="median">Median</button>
+                    <button class="btn calc-btn btn-function" data-action="mode">Mode</button>
+                    <button class="btn calc-btn btn-function" data-action="stddev">Std Dev</button>
+                    
+                    <button class="btn calc-btn btn-function" data-action="variance">Variance</button>
+                    <button class="btn calc-btn btn-function" data-action="sum">Sum</button>
+                    <button class="btn calc-btn btn-function" data-action="count">Count</button>
+                    <button class="btn calc-btn btn-function" data-action="quartiles">Quartiles</button>
+                    
+                    <button class="btn calc-btn btn-function" data-action="regression">Lin Reg</button>
+                    <button class="btn calc-btn btn-function" data-action="correlation">Correlation</button>
+                </div>
+                <div id="stats-results" class="stats-results"></div>
+            </div>
+
+            <!-- Conversion Tab -->
+            <div id="tab-convert" class="tab-panel">
+                <div class="conversion-type">
+                    <select id="conversion-type" class="form-control">
+                        <option value="base">Number Base</option>
+                        <option value="angle">Angle Units</option>
+                        <option value="coordinate">Coordinates</option>
+                        <option value="fraction">Decimal ↔ Fraction</option>
+                    </select>
+                </div>
+                <div id="conversion-inputs" class="conversion-inputs">
+                    <!-- Conversion inputs will be generated dynamically -->
+                </div>
+                <div class="button-grid convert-grid">
+                    <button class="btn calc-btn btn-function" data-action="convert">Convert</button>
+                    <button class="btn calc-btn btn-function" data-action="clear-convert">Clear</button>
+                </div>
+                <div id="conversion-results" class="conversion-results"></div>
+            </div>
+
+            <!-- Memory &amp; Settings Tab -->
+            <div id="tab-memory" class="tab-panel">
+                <div class="memory-section">
+                    <h4>Memory Functions</h4>
+                    <div class="button-grid memory-grid">
+                        <button class="btn calc-btn btn-memory" data-action="mc">MC</button>
+                        <button class="btn calc-btn btn-memory" data-action="mr">MR</button>
+                        <button class="btn calc-btn btn-memory" data-action="ms">MS</button>
+                        <button class="btn calc-btn btn-memory" data-action="mplus">M+</button>
+                        <button class="btn calc-btn btn-memory" data-action="mminus">M−</button>
+                    </div>
+                    <div class="memory-display">
+                        <span>Memory: </span><span id="memory-value">0</span>
+                    </div>
+                </div>
+                
+                <div class="history-section">
+                    <h4>Calculation History</h4>
+                    <div id="calculation-history" class="calculation-history"></div>
+                    <button class="btn calc-btn btn-function" data-action="clear-history">Clear History</button>
+                </div>
+                
+                <div class="settings-section">
+                    <h4>Settings</h4>
+                    <div class="setting-item">
+                        <label>Decimal Places:</label>
+                        <input type="number" id="decimal-places" min="0" max="15" value="10" class="form-control">
+                    </div>
+                    <div class="setting-item">
+                        <label>Display Mode:</label>
+                        <select id="display-mode" class="form-control">
+                            <option value="normal">Normal</option>
+                            <option value="scientific">Scientific</option>
+                            <option value="engineering">Engineering</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Help Modal -->
+        <div id="help-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Calculator Help</h2>
+                <div class="help-content">
+                    <h3>Keyboard Shortcuts</h3>
+                    <ul>
+                        <li><kbd>0-9</kbd> - Numbers</li>
+                        <li><kbd>+</kbd>, <kbd>-</kbd>, <kbd>*</kbd>, <kbd>/</kbd> - Basic operations</li>
+                        <li><kbd>Enter</kbd> or <kbd>=</kbd> - Equals</li>
+                        <li><kbd>Backspace</kbd> - Delete</li>
+                        <li><kbd>Escape</kbd> - Clear</li>
+                        <li><kbd>.</kbd> - Decimal point</li>
+                        <li><kbd>(</kbd>, <kbd>)</kbd> - Parentheses</li>
+                    </ul>
+                    
+                    <h3>Function Examples</h3>
+                    <ul>
+                        <li>Basic: <code>2 + 3 * 4</code> → 14</li>
+                        <li>Powers: <code>2^3</code> → 8</li>
+                        <li>Trigonometry: <code>sin(30)</code> → 0.5 (in DEG mode)</li>
+                        <li>Complex: <code>(2+3i) * (1-i)</code> → 5-i</li>
+                        <li>Logarithms: <code>log(100)</code> → 2</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Help Button -->
+        <button id="help-btn" class="help-btn" title="Help">?</button>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
