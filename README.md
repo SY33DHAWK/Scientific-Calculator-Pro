@@ -24,14 +24,23 @@ CONVERSIONS - Number bases, angles, coordinates, fractions
 MEMORY & SETTINGS - History, memory storage, preferences
 
 Key Features:
+
 ✓ Modern dark theme with professional UI
+
 ✓ Dual display - current expression + previous result
+
 ✓ Full keyboard support - type naturally or click buttons
+
 ✓ Smart expression parser - handles nested functions and implicit multiplication
+
 ✓ Calculation history - recall previous 20 calculations
+
 ✓ Multiple angle modes - degrees, radians, gradians
+
 ✓ Error handling - clear, helpful error messages
+
 ✓ Responsive design - works on desktop, tablet, mobile
+
 ✓ Built-in help - tooltips and function reference guide
 
 Technical Implementation:
